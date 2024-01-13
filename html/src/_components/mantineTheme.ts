@@ -1,4 +1,5 @@
 import { createTheme, MantineColorsTuple } from "@mantine/core";
+import RingLoader from "./RingLoader";
 
 const myColor: MantineColorsTuple = [
   "#e0fffa",
@@ -18,6 +19,14 @@ const mantineTheme = createTheme({
   primaryColor: "myColor",
   colors: {
     myColor,
+  },
+  components: {
+    Loader: RingLoader.extend({
+      defaultProps: {
+        loaders: { ...RingLoader.defaultLoaders, ring: RingLoader },
+        type: "ring",
+      },
+    }),
   },
 });
 
