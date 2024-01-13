@@ -21,6 +21,7 @@ server_scripts {
 ui_page 'html/dist/index.html'
 files {
 	'html/dist/*.html',
-	'html/dist/*.js',
-	'html/dist/*.css',
+	'html/dist/*.*',
+	'html/dist/assets/*.js',
+	'html/dist/assets/*.css',
 }
