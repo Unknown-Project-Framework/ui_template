@@ -1,4 +1,4 @@
-import { createTheme, MantineColorsTuple } from "@mantine/core";
+import { createTheme, MantineColorsTuple, Loader } from "@mantine/core";
 import RingLoader from "./RingLoader";
 
 const myColor: MantineColorsTuple = [
@@ -21,9 +21,9 @@ const mantineTheme = createTheme({
     myColor,
   },
   components: {
-    Loader: RingLoader.extend({
+    Loader: Loader.extend({
       defaultProps: {
-        loaders: { ...RingLoader.defaultLoaders, ring: RingLoader },
+        loaders: { ...Loader.defaultLoaders, ring: RingLoader },
         type: "ring",
       },
     }),

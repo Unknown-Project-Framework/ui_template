@@ -7,7 +7,7 @@ const App = () => {
     <MantineProvider
       defaultColorScheme="dark"
       theme={mantineTheme}
-    ></MantineProvider>
+    >xDD</MantineProvider>
   );
 };
 

@@ -1,5 +1,8 @@
-RegisterNetEvent('characters:server:setupCharacters', function()
-    local _source = source
+RegisterNetEvent('characters:server:setupCharacters', function(_source)
+    if not _source then
+        return
+    end
+
     local user = exports.core:GetUser(_source)
 
     if not user then
@@ -9,7 +12,7 @@ RegisterNetEvent('characters:server:setupCharacters', function()
     MySQL.query('SELECT * FROM characters WHERE discord_id = ?', {
         user.getDiscordId()
     }, function(characters)
-        exports.core:Log(characters)
-        -- user.setCharacters(characters)
+        user.setCharacters(characters)
+        TriggerClientEvent('characters:client:loadCharactersNUI', _source, characters)
     end)
 end)
