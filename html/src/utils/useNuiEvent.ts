@@ -3,14 +3,14 @@ import { MutableRefObject, useEffect, useRef } from "react";
 const noop = () => {};
 
 interface NuiMessageData<T = unknown> {
-  action: string;
+  type: string;
   data: T;
 }
 
 type NuiHandlerSignature<T> = (data: T) => void;
 
 export const useNuiEvent = <T = unknown>(
-  action: string,
+  type: string,
   handler: (data: T) => void
 ) => {
   const savedHandler: MutableRefObject<NuiHandlerSignature<T>> = useRef(noop);
@@ -21,10 +21,10 @@ export const useNuiEvent = <T = unknown>(
 
   useEffect(() => {
     const eventListener = (event: MessageEvent<NuiMessageData<T>>) => {
-      const { action: eventAction, data } = event.data;
+      const { type: eventAction, data } = event.data;
 
       if (savedHandler.current) {
-        if (eventAction === action) {
+        if (eventAction === type) {
           savedHandler.current(data);
         }
       }
@@ -32,5 +32,5 @@ export const useNuiEvent = <T = unknown>(
 
     window.addEventListener("message", eventListener);
     return () => window.removeEventListener("message", eventListener);
-  }, [action]);
+  }, [type]);
 };

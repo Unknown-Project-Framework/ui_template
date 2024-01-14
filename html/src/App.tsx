@@ -1,13 +1,59 @@
-import "@mantine/core/styles.css";
-import { MantineProvider } from "@mantine/core";
-import mantineTheme from "./_components/mantineTheme";
+import { BackgroundImage, Loader, Transition } from "@mantine/core";
+import { useNavigate } from "@tanstack/react-router";
+import { useEffect } from "react";
+import { useNuiEvent } from "./utils";
+import { useDisclosure } from "@mantine/hooks";
 
 const App = () => {
+  const copyToClipboard = (str: any) => {
+    const el = document.createElement("textarea");
+    el.value = str;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand("copy");
+    document.body.removeChild(el);
+  };
+  useNuiEvent("clipboard", (data) => {
+    copyToClipboard(data);
+  });
+
+  const navigate = useNavigate();
+  const [opened, handlers] = useDisclosure(true);
+
+  useEffect(() => {
+    if (document.readyState !== "complete") {
+      return;
+    }
+
+    handlers.close();
+  }, [document.readyState]);
+
   return (
-    <MantineProvider
-      defaultColorScheme="dark"
-      theme={mantineTheme}
-    >xDD</MantineProvider>
+    <Transition
+      mounted={opened}
+      transition="fade"
+      duration={800}
+      timingFunction="ease"
+      onExited={() =>
+        navigate({
+          to: "/",
+        })
+      }
+    >
+      {(styles) => (
+        <div style={styles}>
+          <BackgroundImage src="loadscreen.png" w="100vw" h="100vh" />
+          <Loader
+            style={{
+              position: "absolute",
+              top: "2%",
+              right: "2%",
+            }}
+            size={64}
+          />
+        </div>
+      )}
+    </Transition>
   );
 };
 
