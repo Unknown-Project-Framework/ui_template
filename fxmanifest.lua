@@ -1,8 +1,8 @@
 fx_version 'cerulean'
 game 'gta5'
 
-name "template"
-description "Template Script"
+name "Characters"
+description "Characters Script"
 author "unknown"
 version "0.0.1"
 
@@ -15,6 +15,7 @@ client_scripts {
 }
 
 server_scripts {
+	'@oxmysql/lib/MySQL.lua',
 	'server/*.lua'
 }
 
