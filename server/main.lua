@@ -16,3 +16,19 @@ RegisterNetEvent('characters:server:setupCharacters', function(_source)
         TriggerClientEvent('characters:client:loadCharactersNUI', _source, characters)
     end)
 end)
+
+RegisterNetEvent('characters:server:createCharacter', function(_payload)
+    local _source = source
+
+    if not _source then
+        return
+    end
+
+    local user = exports.core:GetUser(_source)
+
+    if not user then
+        return
+    end
+
+    user.addCharacter(_payload)
+end)

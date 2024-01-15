@@ -10,17 +10,16 @@ Citizen.CreateThread(function()
     end
 end)
 
-
-
 RegisterNetEvent('characters:client:loadCharactersNUI', function(_characters)
-    ShutdownLoadingScreenNui()
     DoScreenFadeOut(0)
+    ShutdownLoadingScreen()
+    ShutdownLoadingScreenNui()
+
 
     Citizen.Wait(2000)
     DoScreenFadeIn(800)
 
     StartCameraThread()
-
 
     SendNUIMessage({
         type = 'loadCharacters',
@@ -28,6 +27,35 @@ RegisterNetEvent('characters:client:loadCharactersNUI', function(_characters)
     })
 
     SetNuiFocus(true, true)
+end)
+
+RegisterNUICallback('createCharacter', function(_payload, cb)
+    TriggerServerEvent('characters:server:createCharacter', _payload)
+
+    cb(1)
+end)
+
+RegisterNUICallback('setCamera', function(_payload, cb)
+    cameraThread = false
+    activeCam = _payload + 1
+
+    DoScreenFadeOut(500)
+    Citizen.Wait(500)
+
+    SetCamActive(cams[activeCam], true)
+    RenderScriptCams(true, false, 0, true, true)
+
+    Citizen.Wait(500)
+    DoScreenFadeIn(500)
+
+    cb(1)
+end)
+
+RegisterNUICallback('defaultCamera', function(_payload, cb)
+    cameraThread = true
+    activeCam = 1
+
+    cb(1)
 end)
 
 
@@ -52,6 +80,8 @@ function StartCameraThread()
 end
 
 function NextCamera()
+    print('next camera')
+
     Citizen.Wait(Config.Cams[activeCam].timeout)
 
     if not cameraThread then

@@ -1,19 +1,22 @@
-import { useState } from "react";
-import { useNuiEvent } from "./utils";
-import { Transition } from "@mantine/core";
+import { useEffect } from "react";
+import { nuiState, useNuiEvent } from "./utils";
+import { Group, Transition } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import CharacterCard from "./_components/CharacterCard";
+import { useNavigate } from "@tanstack/react-router";
 
 const Characters = () => {
-  const [opened, handlers] = useDisclosure(false);
-  const [loaderData, setLoaderData] = useState<any>([]);
-  useNuiEvent("loadCharacters", (_payload) => {
-    console.log("loadCharacters");
-    setLoaderData(_payload);
+  const navigate = useNavigate();
 
-    setTimeout(() => {
-      handlers.open();
-    }, 1000);
+  const { setCharacters, characters } = nuiState();
+  const [opened, handlers] = useDisclosure(false);
+  useNuiEvent("loadCharacters", (_payload) => {
+    setCharacters(_payload);
   });
+
+  useEffect(() => {
+    handlers.open();
+  }, []);
 
   return (
     <Transition
@@ -24,9 +27,28 @@ const Characters = () => {
     >
       {(styles) => (
         <div style={styles}>
-          <pre>
-            <code>{JSON.stringify(loaderData, null, 2)}</code>
-          </pre>
+          <Group
+            style={{ position: "absolute", bottom: "1%", left: "0" }}
+            justify="center"
+            align="flex-end"
+            w="100vw"
+          >
+            {Array.from({ length: 5 }).map((_, i) => (
+              <CharacterCard
+                key={i}
+                slot_id={i}
+                {...characters.find((char) => char.slot_id === i)}
+                onChangePage={(to) => {
+                  handlers.close();
+                  setTimeout(() => {
+                    navigate({
+                      to,
+                    });
+                  }, 800);
+                }}
+              />
+            ))}
+          </Group>
         </div>
       )}
     </Transition>

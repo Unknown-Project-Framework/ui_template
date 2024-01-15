@@ -4,7 +4,7 @@ Config.Cams = {
     {
         camCoords = vector3(-1990.372, -509.7328, 22.46059),
         camRot = vector3(-25.63138, 0.0534027, 25.24098),
-        timeout = 15000
+        timeout = 5000
     },
     {
         camCoords = vector3(-1981.686, -496.871, 20.5704),

@@ -19,10 +19,10 @@ server_scripts {
 	'server/*.lua'
 }
 
-ui_page 'html/dist/index.html'
-files {
-	'html/dist/*.html',
-	'html/dist/*.*',
-	'html/dist/assets/*.js',
-	'html/dist/assets/*.css',
-}
+ui_page 'http://localhost:5173/'
+-- files {
+-- 	'html/dist/*.html',
+-- 	'html/dist/*.*',
+-- 	'html/dist/assets/*.js',
+-- 	'html/dist/assets/*.css',
+-- }

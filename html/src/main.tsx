@@ -2,6 +2,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 
 import "@mantine/core/styles.css";
+import "@mantine/dates/styles.css";
 import { MantineProvider } from "@mantine/core";
 import mantineTheme from "./_components/mantineTheme";
 
@@ -15,6 +16,7 @@ import {
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import App from "./App";
 import Characters from "./Characters";
+import CreateCharacter from "./_components/CreateCharacter";
 
 const rootRoute = new RootRoute({
   component: () => (
@@ -37,7 +39,13 @@ const homeRoute = new Route({
   component: () => <Characters />,
 });
 
-const routeTree = rootRoute.addChildren([indexRoute, homeRoute]);
+const createRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: "/create",
+  component: () => <CreateCharacter />,
+});
+
+const routeTree = rootRoute.addChildren([indexRoute, homeRoute, createRoute]);
 
 const router = new Router({ routeTree });
 
