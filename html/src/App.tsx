@@ -5,18 +5,6 @@ import { useNuiEvent } from "./utils";
 import { useDisclosure } from "@mantine/hooks";
 
 const App = () => {
-  const copyToClipboard = (str: any) => {
-    const el = document.createElement("textarea");
-    el.value = str;
-    document.body.appendChild(el);
-    el.select();
-    document.execCommand("copy");
-    document.body.removeChild(el);
-  };
-  useNuiEvent("clipboard", (data) => {
-    copyToClipboard(data);
-  });
-
   const navigate = useNavigate();
   const [opened, handlers] = useDisclosure(true);
 

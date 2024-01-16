@@ -118,22 +118,3 @@ function StopCameraThread()
 
     activeCam = 1
 end
-
--- TEST CAM
-RegisterCommand('stopcam', function()
-    StopCameraThread()
-end, false)
-
-RegisterCommand('startcam', function()
-    StartCameraThread()
-end, false)
-
-
-RegisterCommand('cam', function()
-    local coords, heading = GetFinalRenderedCamCoord(), GetFinalRenderedCamRot(0)
-
-    SendNUIMessage({
-        type = 'clipboard',
-        data = '{' .. vec(coords.x, coords.y, coords.z) .. ', ' .. vec(heading.x, heading.y, heading.z) .. ' }'
-    })
-end, false)
